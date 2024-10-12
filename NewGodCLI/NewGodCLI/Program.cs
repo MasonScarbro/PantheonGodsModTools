@@ -28,8 +28,27 @@ namespace NewGodCLI
             {"S.accuracy", 0f},
             
         };
+
+        public static string[] possiblePaths = new string[]
+        {
+            "C:/Program Files (x86)/Steam/steamapps/common/worldbox",
+            "D:/Steam/steamapps/common/worldbox",
+            // Add any other common locations
+        };
+
         static void Main(string[] args)
         {
+            string worldboxPath = null;
+
+            foreach (string path in possiblePaths)
+            {
+                if (Directory.Exists(path))
+                {
+                    worldboxPath = path;
+                    break;
+                }
+            }
+
             Console.WriteLine("Welcome to the God Creator CLI:\n");
             Console.WriteLine("\nWhat is your Gods Name: ");
             string godName = Console.ReadLine();
@@ -69,12 +88,12 @@ namespace NewGodCLI
             }
 
             
-            ReplacePlaceHolder("C:/Program Files (x86)/Steam/steamapps/common/worldbox/Mods/Pantheon Mod/Code/Traits.cs", "//NEW_GOD_TRAIT_STATS", CodeGenStatsDict(godName, Stats));
-            ReplacePlaceHolder("C:/Program Files (x86)/Steam/steamapps/common/worldbox/Mods/Pantheon Mod/Code/Traits.cs", "//NEW_GOD_ABILITY_DICT", CodeGenGodAbilitiesDict(godName, abilities));
-            ReplacePlaceHolder("C:/Program Files (x86)/Steam/steamapps/common/worldbox/Mods/Pantheon Mod/Code/Traits.cs", "//NEW_GOD_ATTACK_FUNC", CodeGenGodAbilitiesFuncs(godName, abilities));
-            ReplacePlaceHolder("C:/Program Files (x86)/Steam/steamapps/common/worldbox/Mods/Pantheon Mod/Code/Traits.cs", "//NEW_GOD_INIT", CodeGenInit(godName, "Fill this out yourself"));
-            ReplacePlaceHolder("C:/Program Files (x86)/Steam/steamapps/common/worldbox/Mods/Pantheon Mod/Code/SavedSettings.cs", "//NEW_SAVED_SETTING", CodeGenSavedSettings(godName, abilities, 40));
-            ReplacePlaceHolder("C:/Program Files (x86)/Steam/steamapps/common/worldbox/Mods/Pantheon Mod/Code/WindowManager.cs", "//NEW_WINDOW_HERE", CodeGenWindow(godName));
+            ReplacePlaceHolder($"{worldboxPath}/Mods/Pantheon Mod/Code/Traits.cs", "//NEW_GOD_TRAIT_STATS", CodeGenStatsDict(godName, Stats));
+            ReplacePlaceHolder($"{worldboxPath}/Mods/Pantheon Mod/Code/Traits.cs", "//NEW_GOD_ABILITY_DICT", CodeGenGodAbilitiesDict(godName, abilities));
+            ReplacePlaceHolder($"{worldboxPath}/Mods/Pantheon Mod/Code/Traits.cs", "//NEW_GOD_ATTACK_FUNC", CodeGenGodAbilitiesFuncs(godName, abilities));
+            ReplacePlaceHolder($"{worldboxPath}/Mods/Pantheon Mod/Code/Traits.cs", "//NEW_GOD_INIT", CodeGenInit(godName, "Fill this out yourself"));
+            ReplacePlaceHolder($"{worldboxPath}/worldbox/Mods/Pantheon Mod/Code/SavedSettings.cs", "//NEW_SAVED_SETTING", CodeGenSavedSettings(godName, abilities, 40));
+            ReplacePlaceHolder($"{worldboxPath}/Mods/Pantheon Mod/Code/WindowManager.cs", "//NEW_WINDOW_HERE", CodeGenWindow(godName));
 
         }
 
